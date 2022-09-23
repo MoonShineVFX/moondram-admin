@@ -234,8 +234,8 @@ const Home = () => {
         Service.fileDelete({ files: obj.path })
             .then(() => {
 
-                globalDispatch({ type: 'file_delete', payload: obj.id });
                 alert('刪除成功!');
+                globalDispatch({ type: 'file_delete', payload: obj.id });
                 setSelectedRowData([]);
 
             });

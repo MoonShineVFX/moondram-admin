@@ -56,6 +56,12 @@ const TablesLayout = styled(Tables)({
             maxWidth: '100px',
         },
     },
+    '.btn-admin.third': {
+        fontSize: '14px',
+        marginLeft: '8px',
+        marginRight: '0',
+        padding: '2px 8px',
+    },
 });
 
 //
@@ -250,7 +256,18 @@ const Account = () => {
         {
             title: '信箱',
             dataIndex: 'email',
-            render: (email) => renderWithoutValue(email),
+            render: (email, { uid }) => (
+
+                <Fragment>
+                    {email}
+                    <Buttons
+                        className="third"
+                        text="更新密碼"
+                        onClick={() => btnChangePassword(uid)}
+                    />
+                </Fragment>
+
+            ),
         },
         {
             title: '是否啟用',
@@ -270,17 +287,20 @@ const Account = () => {
             title: '操作',
             dataIndex: '',
             className: 'col-actions',
-            render: ({ email }) => (
+            render: ({ uid, email }) => (
 
                 <Buttons
-                    className="third"
-                    text="更新密碼"
-                    onClick={() => btnRestPassword(email)}
+                    text="刪除"
+                    type="danger"
+                    onClick={() => btnDelete({ uid, email })}
                 />
 
             ),
         },
     ];
+
+    // 新增帳號
+    const btnCreateAccount = () => lightboxDispatch({ type: 'SHOW', currEvent: 'createAccount' });
 
     // 啟/禁用
     const handleSwitch = (checked, event, uid) => {
@@ -294,14 +314,35 @@ const Account = () => {
     };
 
     // 更新密碼
-    const btnRestPassword = (email) => {
+    const btnChangePassword = (uid) => {
 
-        Service.resetPassword({ email });
+        const yes = window.confirm('確定要為此帳號更新密碼?');
+
+        if (!yes) return;
+
+        const value = prompt('請輸入新密碼:');
+
+        if (!value) return;
+        Service.accountUpdate({ uid, password: value })
+            .then(alert('更新成功!'));
 
     };
 
-    // 新增帳號
-    const btnCreateAccount = () => lightboxDispatch({ type: 'SHOW', currEvent: 'createAccount' });
+    // 刪除
+    const btnDelete = ({ uid, email }) => {
+
+        const yes = window.confirm(`確定要刪除 ${email} 這個帳號?`);
+
+        if (!yes) return;
+        Service.accountDelete({ uid })
+            .then(() => {
+
+                alert('刪除成功!');
+                globalDispatch({ type: 'account_delete', payload: uid });
+
+            });
+
+    };
 
     return (
 
@@ -310,7 +351,7 @@ const Account = () => {
             <ContentHeader title="後台帳號" />
 
             <Buttons
-                text="新增帳號"
+                text="新增"
                 onClick={btnCreateAccount}
             />
 
