@@ -18,9 +18,7 @@ const Service = {
     accountList: (reqData) => util.serviceProxy('/user/list_users', reqData),
     accountCreate: (reqData) => util.serviceProxy('/user/create_admin', reqData),
     accountUpdate: (reqData) => util.serviceProxy('/user/update_user', reqData),
-
-    // 重設密碼
-    resetPassword: (reqData) => util.serviceProxy('/user/reset_current_user_password', reqData),
+    accountDelete: (reqData) => util.serviceProxy('/user/delete_user', reqData),
 };
 
 export default Service;

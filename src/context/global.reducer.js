@@ -40,6 +40,12 @@ const globalReducer = (state, { type, payload }) => {
                 accounts: [{ ...payload }, ...state.accounts],
             };
 
+        case 'account_delete':
+            return {
+                ...state,
+                accounts: state.accounts.filter(({ uid }) => uid !== payload),
+            };
+
         default:
             return { ...state };
     }
