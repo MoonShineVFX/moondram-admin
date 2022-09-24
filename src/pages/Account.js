@@ -58,7 +58,7 @@ const TablesLayout = styled(Tables)({
     },
     '.btn-admin.third': {
         fontSize: '14px',
-        marginLeft: '8px',
+        marginLeft: '4px',
         marginRight: '0',
         padding: '2px 8px',
     },

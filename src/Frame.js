@@ -38,7 +38,14 @@ const Frame = () => {
     // 未登入
     if (!token) {
 
-        return <Login />;
+        return (
+
+            <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                <Login />
+            </ThemeProvider>
+
+        );
 
     }
 
