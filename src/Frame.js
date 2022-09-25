@@ -78,3 +78,6 @@ const Frame = () => {
 };
 
 export default Frame;
+
+// example
+// https://codesandbox.io/s/react-router-v6-auth-demo-4jzltb?file=/src/App.js

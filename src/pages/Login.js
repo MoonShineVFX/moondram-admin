@@ -21,6 +21,13 @@ const MainLayout = styled.main({
     padding: '60px 40px 80px',
     'h1': {
         textAlign: 'center',
+        marginBottom: '10px',
+    },
+    '.sub-title': {
+        fontWeight: 'normal',
+        color: 'gray',
+        textAlign: 'center',
+        marginBottom: '40px',
     },
 });
 
@@ -120,7 +127,7 @@ const Login = () => {
 
         <MainLayout>
             <ContentHeader title="登入" />
-
+            <h4 className="sub-title">夢境現實後台</h4>
             <FormLayout onSubmit={handleSubmit(handleReqData)}>
                 <FormRow className={errors?.email?.type ? 'hasError' : ''}>
                     <div className="title">帳號 (必填)</div>
