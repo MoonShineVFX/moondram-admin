@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import styled from 'styled-components';
@@ -117,7 +116,7 @@ const Login = () => {
             .then(() => {
 
                 alert('登入成功，你將被導回首頁!');
-                redirect('/');
+                window.location.reload();
 
             });
 

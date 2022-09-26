@@ -41,18 +41,18 @@ const util = {
 
             const authHeader = {
                 headers: {
-                    Authorization: `Bearer ${Cookies.get('token')}`,
+                    Authorization: `Bearer ${Cookies.get('mdra-session')}`,
                 },
             };
 
             axios({
-                baseURL: (process.env.NODE_ENV === 'development') ? `https://${process.env.HOST}/api` : '/api',
+                baseURL: (process.env.NODE_ENV === 'development') ? `https://${process.env.REACT_APP_HOST}/api` : '/api',
                 url: service,
                 method: 'post',
                 ...condi && { data: reqData },
                 ...service,
                 ...option,
-                ...(Cookies.get()?.token) && { ...authHeader },
+                // ...(Cookies.get()?.token) && { ...authHeader },
             })
             .then(
                 // result: 1
