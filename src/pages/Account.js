@@ -229,20 +229,20 @@ const Account = () => {
     useEffect(() => {
 
         // fake
-        globalDispatch({
-            type: 'account_list',
-            payload: fakeData.accounts,
-        });
+        // globalDispatch({
+        //     type: 'account_list',
+        //     payload: fakeData.accounts,
+        // });
 
-        // Service.accountList()
-        //     .then(({ list }) => {
+        Service.accountList()
+            .then(({ list }) => {
 
-        //         globalDispatch({
-        //             type: 'account_list',
-        //             payload: list,
-        //         });
+                globalDispatch({
+                    type: 'account_list',
+                    payload: list,
+                });
 
-        //     });
+            });
 
     }, [globalDispatch]);
 

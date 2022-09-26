@@ -1,3 +1,4 @@
+import { Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
 import styled, { ThemeProvider } from 'styled-components';
 import 'antd/dist/antd.css';
@@ -7,12 +8,14 @@ import theme from './utils/theme';
 import { GlobalProvider } from './context/global.state';
 
 // 未登入
-import useToken from './utils/useToken';
 import Login from './pages/Login';
 
 // 已登入
-import PageRoute from './PageRoute';
 import Navbar from './containers/Navbar';
+
+import Home from './pages/Home';
+import Account from './pages/Account';
+import PrivateLayout from './PrivateLayout';
 
 const { Content, Footer } = Layout;
 
@@ -31,51 +34,32 @@ const FooterLayout = styled(Footer)(({ theme }) => ({
     paddingBottom: '16px',
 }));
 
-const Frame = () => {
-
-    const { token } = useToken();
-
-    // 未登入
-    if (!token) {
-
-        return (
-
-            <ThemeProvider theme={theme}>
-                <GlobalStyle />
-                <Login />
-            </ThemeProvider>
-
-        );
-
-    }
-
+const Test = () => {
     return (
+        <PrivateLayout>
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="admin_account" element={<Account />} />
+            </Routes>
+        </PrivateLayout>
 
-        <ThemeProvider theme={theme}>
-            <GlobalProvider>
-                <GlobalStyle />
+    )
+}
 
-                <Layout
-                    style={{
-                        marginLeft: 200,
-                    }}
-                >
-                    <Navbar />
+const Frame = () => (
 
-                    <Layout>
-                        <ContentLayout>
-                            <PageRoute />
-                        </ContentLayout>
+    <ThemeProvider theme={theme}>
+        <GlobalProvider>
+            <GlobalStyle />
 
-                        <FooterLayout>Copyright © Moonshine All rights reserved.</FooterLayout>
-                    </Layout>
-                </Layout>
-            </GlobalProvider>
-        </ThemeProvider>
+            <Routes>
+                <Route path="login" element={<Login />} />
+                <Route path="/" element={<Test />} />
+            </Routes>
+        </GlobalProvider>
+    </ThemeProvider>
 
-    );
-
-};
+);
 
 export default Frame;
 

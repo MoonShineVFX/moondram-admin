@@ -110,20 +110,20 @@ const Home = () => {
     useEffect(() => {
 
         // fake
-        globalDispatch({
-            type: 'file_list',
-            payload: fakeData.files,
-        });
+        // globalDispatch({
+        //     type: 'file_list',
+        //     payload: fakeData.files,
+        // });
 
-        // Service.fileList()
-        //     .then(({ list }) => {
+        Service.fileList()
+            .then(({ list }) => {
 
-        //         globalDispatch({
-        //             type: 'file_list',
-        //             payload: list,
-        //         });
+                globalDispatch({
+                    type: 'file_list',
+                    payload: list,
+                });
 
-        //     });
+            });
 
     }, [globalDispatch]);
 

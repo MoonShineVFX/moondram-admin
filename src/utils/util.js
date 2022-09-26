@@ -66,11 +66,17 @@ const util = {
 
                     const {
                         data: { errors },
+                        status,
                     } = response;
 
-                    reject(showErrorMesg(
-                        Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
-                    ));
+                    if (status === 401) window.location = '/login';
+                    else {
+
+                        reject(showErrorMesg(
+                            Object.keys(errors).map((key) => `${key}: ${errors[key]}`)
+                        ));
+
+                    }
 
                 },
             );
