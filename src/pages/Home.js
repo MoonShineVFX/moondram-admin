@@ -109,6 +109,8 @@ const Home = () => {
 
     useEffect(() => {
 
+        console.log('Home!!!')
+
         // fake
         // globalDispatch({
         //     type: 'file_list',
@@ -125,7 +127,7 @@ const Home = () => {
 
             });
 
-    }, [globalDispatch]);
+    }, []);
 
     // 表格欄位
     const columns = [

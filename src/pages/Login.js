@@ -115,7 +115,7 @@ const Login = () => {
         Service.login({ headers: { Authorization: `Basic ${auth}`} })
             .then(() => {
 
-                // alert('登入成功，你將被導回首頁!');
+                alert('登入成功，你將被導回首頁!');
                 window.location = '/';
 
             })
