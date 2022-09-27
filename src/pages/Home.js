@@ -111,12 +111,6 @@ const Home = () => {
 
         console.log('Home!!!')
 
-        // fake
-        // globalDispatch({
-        //     type: 'file_list',
-        //     payload: fakeData.files,
-        // });
-
         Service.fileList()
             .then(({ list }) => {
 

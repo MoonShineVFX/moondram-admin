@@ -13,11 +13,8 @@ import util from '../utils/util';
 import utilConst from '../utils/util.const';
 import Service from '../utils/util.service';
 
-// fake
-import fakeData from './fakeData';
-
 const { renderWithoutValue } = util;
-const { errorMesg } = utilConst;
+const { errorMesg, regex } = utilConst;
 
 //
 const FormStyle = createGlobalStyle`
@@ -154,7 +151,7 @@ const FormModal = () => {
                             {...register('email', {
                                 required: true,
                                 pattern: {
-                                    value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
+                                    value: `/${regex}/g`,
                                     message: errorMesg.error_pattern,
                                 },
                             })}
@@ -228,11 +225,7 @@ const Account = () => {
 
     useEffect(() => {
 
-        // fake
-        // globalDispatch({
-        //     type: 'account_list',
-        //     payload: fakeData.accounts,
-        // });
+        console.log('Account')
 
         Service.accountList()
             .then(({ list }) => {
@@ -244,7 +237,7 @@ const Account = () => {
 
             });
 
-    }, [globalDispatch]);
+    }, []);
 
     // 表格欄位
     const columns = [

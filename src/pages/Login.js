@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import Buttons from '../components/Buttons';
 import utilConst from '../utils/util.const';
 import Service from '../utils/util.service';
 
-const { errorMesg } = utilConst;
+const { errorMesg, regex } = utilConst;
 
 //
 const MainLayout = styled.main({
@@ -96,6 +96,10 @@ const FormErrorMesg = ({ name, errors }) => (
 //
 const Login = () => {
 
+    useEffect(() => {
+        console.log('login')
+    });
+
     // State
     const [loading, setLoading] = useState(false);
 
@@ -138,7 +142,7 @@ const Login = () => {
                             {...register('email', {
                                 required: true,
                                 pattern: {
-                                    value: /^\w+([+.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
+                                    value: `/${regex}/g`,
                                     message: errorMesg.error_pattern,
                                 },
                             })}

@@ -37,6 +37,10 @@ const utilConst = {
         error_required: '此欄位為必填',
         error_pattern: '格式有誤',
     },
+
+    regex: {
+        email: `^\w+([+.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$`,
+    },
 };
 
 export default utilConst;
