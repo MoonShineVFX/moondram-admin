@@ -116,9 +116,10 @@ const Login = () => {
             .then(() => {
 
                 alert('登入成功，你將被導回首頁!');
-                window.location.reload();
+                window.location = '/';
 
-            });
+            })
+            .finally(() => setLoading(false));
 
     };
 

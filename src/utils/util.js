@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { Modal } from 'antd';
 import moment from 'moment';
-import Cookies from 'js-cookie';
 
 const util = {
     /**
@@ -39,20 +38,14 @@ const util = {
         // 回傳 promise
         return new Promise((resolve, reject) => {
 
-            const authHeader = {
-                headers: {
-                    Authorization: `Bearer ${Cookies.get('mdra-session')}`,
-                },
-            };
-
             axios({
                 baseURL: (process.env.NODE_ENV === 'development') ? `https://${process.env.REACT_APP_HOST}/api` : '/api',
                 url: service,
                 method: 'post',
+                withCredentials: true,
                 ...condi && { data: reqData },
                 ...service,
                 ...option,
-                // ...(Cookies.get()?.token) && { ...authHeader },
             })
             .then(
                 // result: 1
@@ -69,6 +62,7 @@ const util = {
                         status,
                     } = response;
 
+                    // 未登入則導去登入頁
                     if (status === 401) window.location = '/login';
                     else {
 

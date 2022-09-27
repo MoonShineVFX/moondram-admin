@@ -1,9 +1,7 @@
-import { Fragment } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { useOutlet  } from 'react-router-dom';
 import { Layout } from 'antd';
 import styled from 'styled-components';
-
-import Navbar from './containers/Navbar';
+import Navbar from './Navbar';
 
 const { Content, Footer } = Layout;
 
@@ -22,7 +20,11 @@ const FooterLayout = styled(Footer)(({ theme }) => ({
     paddingBottom: '16px',
 }));
 
-const PrivateLayout = ({ children }) => {
+//
+const Frame = () => {
+
+    // hook
+    const outlet = useOutlet();
 
     return (
 
@@ -35,7 +37,7 @@ const PrivateLayout = ({ children }) => {
 
             <Layout>
                 <ContentLayout>
-                    {children}
+                    {outlet}
                 </ContentLayout>
 
                 <FooterLayout>Copyright © Moonshine All rights reserved.</FooterLayout>
@@ -45,4 +47,4 @@ const PrivateLayout = ({ children }) => {
 
 };
 
-export default PrivateLayout;
+export default Frame;
