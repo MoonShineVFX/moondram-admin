@@ -115,7 +115,7 @@ const Login = () => {
         Service.login({ headers: { Authorization: `Basic ${auth}`} })
             .then(() => {
 
-                alert('登入成功，你將被導回首頁!');
+                // alert('登入成功，你將被導回首頁!');
                 window.location = '/';
 
             })
@@ -138,7 +138,7 @@ const Login = () => {
                             {...register('email', {
                                 required: true,
                                 pattern: {
-                                    value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
+                                    value: /^\w+([+.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g,
                                     message: errorMesg.error_pattern,
                                 },
                             })}
