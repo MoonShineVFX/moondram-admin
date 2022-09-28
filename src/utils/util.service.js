@@ -5,13 +5,20 @@ const Service = {
     login: ({ reqData, headers }) => util.serviceProxy('/user/login', reqData, {
         headers: { ...headers },
     }),
-    logout: (reqData) => util.serviceProxy('/???', reqData),
+    logout: (reqData) => util.serviceProxy('/user/logout', reqData),
 
     // 檔案
     fileList: (reqData) => util.serviceProxy('/file/list_files', reqData),
     fileDelete: (reqData) => util.serviceProxy('/file/delete_files', reqData),
+    // fileDownload: (reqData) => util.serviceProxy({
+    //     method: 'post',
+    //     responseType: 'blob',
+    //     url: '/file/download_zip',
+    // }),
     fileDownload: (reqData) => util.serviceProxy('/file/download_zip', reqData, {
-        responseType: 'blob',
+        option: {
+            responseType: 'blob',
+        },
     }),
 
     // 後台帳號

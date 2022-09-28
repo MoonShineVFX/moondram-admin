@@ -15,6 +15,8 @@ const util = {
      */
     serviceProxy: (service, reqData = {}, option) => {
 
+        console.log('option:', option)
+
         // 檢查物件或字串
         const condi = (typeof service === 'string');
 
@@ -43,7 +45,8 @@ const util = {
                 url: service,
                 method: 'post',
                 withCredentials: true,
-                ...condi && { data: reqData },
+                // ...condi && { data: reqData },
+                data: reqData,
                 ...service,
                 ...option,
             })
@@ -51,7 +54,7 @@ const util = {
                 // result: 1
                 ({ data }) => {
 
-                    resolve(condi ? data.data : data);
+                    resolve(option?.responseType ? data : data.data);
 
                 },
                 // result: 0

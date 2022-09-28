@@ -7,6 +7,7 @@ import {
 import { Image } from 'antd';
 import styled from 'styled-components';
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
+import saveAs from 'file-saver';
 
 import ContentHeader from '../containers/ContentHeader';
 import FontIcon from '../components/FontIcon';
@@ -19,9 +20,6 @@ import util from '../utils/util';
 import utilConst from '../utils/util.const';
 import Service from '../utils/util.service';
 
-// fake
-import fakeData from './fakeData';
-
 const {
     renderDateTime,
     renderBytesConvert,
@@ -29,6 +27,32 @@ const {
 } = util;
 
 const { toggleConfig } = utilConst;
+
+const toDataURL = async(url, reqData) => {
+
+    return await fetch(url, {
+        body: {
+            paths: reqData,
+        },
+        method: 'POST',
+    })
+    .then((resp) => resp.blob());
+    // .then((blob) => URL.createObjectURL(blob));
+
+};
+
+const downloadImage = async(url, name, reqData) => {
+
+    let blobUrl;
+    const a = document.createElement('a');
+    a.href = await toDataURL(url, reqData).then((blob) => blobUrl = URL.createObjectURL(blob));
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(blobUrl);
+    document.body.removeChild(a);
+
+};
 
 //
 const ContentTopLayout = styled.div({
@@ -91,6 +115,9 @@ const TablesLayout = styled(Tables)({
         padding: '4px 6px',
         cursor: 'pointer',
     },
+    '.imgWrap': {
+        maxWidth: '160px',
+    },
 });
 
 //
@@ -111,7 +138,7 @@ const Home = () => {
 
         console.log('Home!!!')
 
-        Service.fileList()
+        Service.fileList({ begin: 1662017107 })
             .then(({ list }) => {
 
                 globalDispatch({
@@ -132,13 +159,13 @@ const Home = () => {
         {
             title: '縮圖',
             dataIndex: 'thumb',
-            render: (thumb, { name, path }) => thumb ? (
+            render: (thumb, { name, fileURL }) => thumb ? (
 
                 <div className="imgWrap">
                     <Image
                         src={thumb}
                         alt={name}
-                        preview={{ src: path }}
+                        preview={{ src: fileURL }}
                     />
                 </div>
 
@@ -201,13 +228,36 @@ const Home = () => {
     // 下載
     const btnDownload = (type, params) => {
 
+        // console.log('btnDownload')
         let paths = (type === 'multiple') ? selectedRowData.flatMap(({ path }) => path) : [params.path];
-        Service.fileDownload({ files: paths })
+        // console.log('btnDownload paths')
+
+        Service.fileDownload({ paths })
             .then((resData) => {
 
-                const blobUrl = URL.createObjectURL(resData);
+                console.log('resData:', resData)
+
+                const blobUrl = window.URL.createObjectURL(resData);
+                // const blobUrl = window.URL.createObjectURL(new Blob([resData]));
+                console.log('blobUrl:', blobUrl)
                 window.location = blobUrl;
-                URL.revokeObjectURL(blobUrl);
+                // // window.open(blobUrl, '_blank');
+                window.URL.revokeObjectURL(blobUrl);
+                // setSelectedRowData([]);
+
+                // saveAs(new Blob([resData]), 'download.zip');
+
+                // const a = document.createElement('a');
+                // a.href = blobUrl;
+                // a.download = 'download.zip';
+                // document.body.appendChild(a);
+                // a.click();
+                // URL.revokeObjectURL(blobUrl);
+                // document.body.removeChild(a);
+
+            })
+            .finally(() => {
+
                 setSelectedRowData([]);
 
             });
@@ -227,7 +277,7 @@ const Home = () => {
         const yes = window.confirm(`確定要刪除 ${obj.name.join('、')} ?`);
 
         if (!yes) return;
-        Service.fileDelete({ files: obj.path })
+        Service.fileDelete({ paths: obj.path })
             .then(() => {
 
                 alert('刪除成功!');
@@ -287,6 +337,7 @@ const Home = () => {
                 columns={columns}
                 data={searchResData.length ? searchResData.filter((obj) => (obj.type === currCate) || (currCate === 'all')) : files.filter((obj) => (obj.type === currCate) || (currCate === 'all'))}
                 rowSelection={{
+                    // selectedRowKeys: selectedRowData.flatMap(({ id }) => id),
                     onChange: handleChangeSelected,
                 }}
             />

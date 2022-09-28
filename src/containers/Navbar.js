@@ -1,13 +1,15 @@
-import { NavLink, redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import styled from 'styled-components';
 import Buttons from '../components/Buttons';
 import utilConst from '../utils/util.const';
+import Service from '../utils/util.service';
 
 const { Sider } = Layout;
 const { navbar: navbrItem } = utilConst;
 
+//
 const SiderLayout = styled(Sider)(({
     height: '100vh',
     textAlign: 'center',
@@ -49,13 +51,19 @@ const SiderLayout = styled(Sider)(({
     },
 }));
 
+//
 const Navbar = ({ width }) => {
 
     // 登出
     const handleLogout = () => {
 
         alert('你將被登出');
-        redirect('/');
+        Service.logout()
+            .then(() => {
+
+                window.location = '/login';
+
+            });
 
     };
 
