@@ -1,5 +1,4 @@
 import 'antd/dist/antd.css';
-import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './containers/GlobalStyle';
@@ -15,12 +14,6 @@ import Home from './pages/Home';
 import Account from './pages/Account';
 
 const PageRoute = () => {
-
-    console.log('PageRoute')
-
-    useEffect(() => {
-        console.log('useEffect PageRoute')
-    });
 
     return (
 

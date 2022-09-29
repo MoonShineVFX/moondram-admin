@@ -225,8 +225,6 @@ const Account = () => {
 
     useEffect(() => {
 
-        console.log('Account')
-
         Service.accountList()
             .then(({ list }) => {
 

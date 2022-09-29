@@ -15,11 +15,6 @@ const util = {
      */
     serviceProxy: (service, reqData = {}, option) => {
 
-        console.log('option:', option)
-
-        // 檢查物件或字串
-        const condi = (typeof service === 'string');
-
         // method, url 與環境設定
         const showErrorMesg = (message, callback) => {
 
@@ -45,7 +40,6 @@ const util = {
                 url: service,
                 method: 'post',
                 withCredentials: true,
-                // ...condi && { data: reqData },
                 data: reqData,
                 ...service,
                 ...option,
@@ -54,7 +48,7 @@ const util = {
                 // result: 1
                 ({ data }) => {
 
-                    resolve(option?.responseType ? data : data.data);
+                    resolve(option ? data : data.data);
 
                 },
                 // result: 0

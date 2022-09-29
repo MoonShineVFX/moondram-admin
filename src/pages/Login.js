@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import styled from 'styled-components';
@@ -95,10 +95,6 @@ const FormErrorMesg = ({ name, errors }) => (
 
 //
 const Login = () => {
-
-    useEffect(() => {
-        console.log('login')
-    });
 
     // State
     const [loading, setLoading] = useState(false);

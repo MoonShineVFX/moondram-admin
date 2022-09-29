@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useOutlet  } from 'react-router-dom';
 import { Layout } from 'antd';
 import styled from 'styled-components';
@@ -26,14 +25,6 @@ const Frame = () => {
 
     // hook
     const outlet = useOutlet();
-
-    console.log('Frame');
-
-    useEffect(() => {
-
-        console.log('Frame useEffect');
-
-    });
 
     return (
 
