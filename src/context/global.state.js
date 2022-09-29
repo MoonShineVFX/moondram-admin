@@ -1,5 +1,6 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer, useEffect } from 'react';
 import { globalReducer, lightboxReducer } from './global.reducer';
+import Service from '../utils/util.service';
 
 // Global
 const globalInitState = {
@@ -7,6 +8,7 @@ const globalInitState = {
     files: [],
     searchResData: [],
     accounts: [],
+    userInfo: null,
 };
 
 // Lightbox
@@ -28,9 +30,28 @@ const GlobalProvider = ({ children }) => {
         files,
         searchResData,
         accounts,
+        userInfo,
     } = globalState;
     const { visible, currEvent } = lightboxState;
     const { Provider } = GlobalContext;
+
+    // useEffect(() => {
+
+    //     Service.userInfo()
+    //         .catch((resData) => {
+
+    //             console.log('resData:', resData);
+    //             // if (resData === 401) window.location = '/login';
+
+    //         })
+    //         .then((resData) => {
+
+    //             // setLogged(!!uid);
+    //             globalDispatch({ type: 'user_info', payload: resData });
+
+    //         });
+
+    // }, [])
 
     return (
 
@@ -40,6 +61,7 @@ const GlobalProvider = ({ children }) => {
             files,
             searchResData,
             accounts,
+            userInfo,
 
             // lightbox
             visible,

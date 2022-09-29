@@ -1,14 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './PageRoute';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from 'styled-components';
+
+import GlobalStyle from './containers/GlobalStyle';
+import theme from './utils/theme';
+import { GlobalProvider } from './context/global.state';
+import App from './PageRoute';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <App />
+            <ThemeProvider theme={theme}>
+                <GlobalProvider>
+                    <GlobalStyle />
+                    <App />
+                </GlobalProvider>
+            </ThemeProvider>
         </BrowserRouter>
     </React.StrictMode>
 );

@@ -7,7 +7,6 @@ import {
 import { Image } from 'antd';
 import styled from 'styled-components';
 import { faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
-import saveAs from 'file-saver';
 
 import ContentHeader from '../containers/ContentHeader';
 import FontIcon from '../components/FontIcon';
@@ -95,7 +94,7 @@ const TablesLayout = styled(Tables)({
 });
 
 //
-const Home = () => {
+const FileList = () => {
 
     // Context
     const {
@@ -296,4 +295,4 @@ const Home = () => {
 
 };
 
-export default Home;
+export default FileList;

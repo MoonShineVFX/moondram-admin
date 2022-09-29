@@ -94,7 +94,15 @@ const FormErrorMesg = ({ name, errors }) => (
 );
 
 //
-const Login = () => {
+const Login = ({ logged }) => {
+
+    console.log('Login logged:', logged)
+
+    if (logged) {
+
+        window.location = '/';
+
+    }
 
     // State
     const [loading, setLoading] = useState(false);
@@ -116,7 +124,7 @@ const Login = () => {
             .then(() => {
 
                 alert('登入成功，你將被導回首頁!');
-                window.location = '/';
+                window.location = '/file_list';
 
             })
             .finally(() => setLoading(false));

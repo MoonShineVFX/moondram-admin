@@ -2,6 +2,13 @@
 const globalReducer = (state, { type, payload }) => {
 
     switch (type) {
+        // 使用者資料
+        case 'user_info':
+            return {
+                ...state,
+                userInfo: payload,
+            };
+
         // 檔案列表
         case 'file_list':
             return {

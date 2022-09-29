@@ -7,6 +7,9 @@ const Service = {
     }),
     logout: (reqData) => util.serviceProxy('/user/logout', reqData),
 
+    // 取 user 資訊
+    userInfo: (reqData) => util.serviceProxy('/user/get_user', reqData),
+
     // 檔案
     fileList: (reqData) => util.serviceProxy('/file/list_files', reqData),
     fileDelete: (reqData) => util.serviceProxy('/file/delete_files', reqData),
