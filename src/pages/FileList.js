@@ -111,7 +111,7 @@ const FileList = () => {
 
     useEffect(() => {
 
-        Service.fileList({ begin: 1662017107 })
+        Service.fileList()
             .then(({ list }) => {
 
                 setLoading(false);
@@ -289,7 +289,7 @@ const FileList = () => {
                     <TablesLayout
                         rowKey="id"
                         columns={columns}
-                        data={searchResData.length ? searchResData.filter((obj) => (obj.type === currCate) || (currCate === 'all')) : files.filter((obj) => (obj.type === currCate) || (currCate === 'all'))}
+                        data={!!searchResData ? searchResData.filter((obj) => (obj.type === currCate) || (currCate === 'all')) : files.filter((obj) => (obj.type === currCate) || (currCate === 'all'))}
                         rowSelection={{
                             selectedRowKeys: selectedRowData.flatMap(({ id }) => id),
                             onChange: handleChangeSelected,

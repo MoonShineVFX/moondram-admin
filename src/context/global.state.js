@@ -10,9 +10,9 @@ import Service from '../utils/util.service';
 // Global
 const globalInitState = {
     currCate: 'all',
-    files: [],
-    searchResData: [],
-    accounts: [],
+    files: null,
+    searchResData: null,
+    accounts: null,
     userInfo: null,
 };
 
