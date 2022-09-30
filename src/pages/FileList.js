@@ -119,7 +119,7 @@ const FileList = () => {
 
             });
 
-    }, []);
+    }, [globalDispatch]);
 
     // 表格欄位
     const columns = [

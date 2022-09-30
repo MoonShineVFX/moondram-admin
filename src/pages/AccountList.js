@@ -217,6 +217,7 @@ const Account = () => {
 
     // Context
     const {
+        userInfo: { customClaims: { role } },
         visible,
         accounts,
         globalDispatch,
@@ -235,7 +236,7 @@ const Account = () => {
 
             });
 
-    }, []);
+    }, [globalDispatch]);
 
     // 表格欄位
     const columns = [
@@ -251,11 +252,15 @@ const Account = () => {
 
                 <Fragment>
                     {email}
-                    <Buttons
-                        className="third"
-                        text="更新密碼"
-                        onClick={() => btnChangePassword(uid)}
-                    />
+
+                    {
+                        (role === 'superuser') &&
+                            <Buttons
+                                className="third"
+                                text="更新密碼"
+                                onClick={() => btnChangePassword(uid)}
+                            />
+                    }
                 </Fragment>
 
             ),
@@ -270,6 +275,7 @@ const Account = () => {
                     unCheckedChildren="禁用"
                     defaultChecked={disabled}
                     onChange={(checked, event) => handleSwitch(checked, event, uid)}
+                    disabled={!(role === 'superuser')}
                 />
 
             ),
@@ -280,11 +286,15 @@ const Account = () => {
             className: 'col-actions',
             render: ({ uid, email }) => (
 
-                <Buttons
-                    text="刪除"
-                    type="danger"
-                    onClick={() => btnDelete({ uid, email })}
-                />
+                (role === 'superuser') ? (
+
+                    <Buttons
+                        text="刪除"
+                        type="danger"
+                        onClick={() => btnDelete({ uid, email })}
+                    />
+
+                ) : '--'
 
             ),
         },
