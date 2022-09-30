@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import styled from 'styled-components';
@@ -6,6 +7,7 @@ import styled from 'styled-components';
 import ContentHeader from '../containers/ContentHeader';
 import Buttons from '../components/Buttons';
 
+import { GlobalContext } from '../context/global.state';
 import utilConst from '../utils/util.const';
 import Service from '../utils/util.service';
 
@@ -94,15 +96,10 @@ const FormErrorMesg = ({ name, errors }) => (
 );
 
 //
-const Login = ({ logged }) => {
+const Login = () => {
 
-    console.log('Login logged:', logged)
-
-    if (logged) {
-
-        window.location = '/';
-
-    }
+    // Context
+    const { userInfo } = useContext(GlobalContext);
 
     // State
     const [loading, setLoading] = useState(false);
@@ -124,12 +121,19 @@ const Login = ({ logged }) => {
             .then(() => {
 
                 alert('登入成功，你將被導回首頁!');
-                window.location = '/file_list';
+                window.location = '/';
 
             })
             .finally(() => setLoading(false));
 
     };
+
+    // 已登入導去首頁
+    if (!!userInfo) {
+
+        return <Navigate to={'/'} replace />;
+
+    }
 
     return (
 

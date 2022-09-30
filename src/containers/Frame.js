@@ -1,7 +1,9 @@
-import { useOutlet  } from 'react-router-dom';
+import { useContext } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
 import styled from 'styled-components';
 import Navbar from './Navbar';
+import { GlobalContext } from '../context/global.state';
 
 const { Content, Footer } = Layout;
 
@@ -23,8 +25,15 @@ const FooterLayout = styled(Footer)(({ theme }) => ({
 //
 const Frame = () => {
 
-    // hook
-    const outlet = useOutlet();
+    // Context
+    const { userInfo } = useContext(GlobalContext);
+
+    // 未登入導去燈入頁
+    if (!userInfo) {
+
+        return <Navigate to={'/login'} replace />;
+
+    }
 
     return (
 
@@ -37,7 +46,7 @@ const Frame = () => {
 
             <Layout>
                 <ContentLayout>
-                    {outlet}
+                    <Outlet />
                 </ContentLayout>
 
                 <FooterLayout>Copyright © Moonshine All rights reserved.</FooterLayout>

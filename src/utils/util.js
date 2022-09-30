@@ -62,8 +62,6 @@ const util = {
                     // 未登入則導去登入頁
                     if (status === 401) {
 
-                        // alert('請先登入!');
-                        // window.location = '/login';
                         reject(status);
 
                     }

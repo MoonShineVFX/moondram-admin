@@ -1,4 +1,9 @@
-import React, { createContext, useReducer, useEffect } from 'react';
+import {
+    createContext,
+    useReducer,
+    useEffect,
+    useState,
+} from 'react';
 import { globalReducer, lightboxReducer } from './global.reducer';
 import Service from '../utils/util.service';
 
@@ -35,44 +40,48 @@ const GlobalProvider = ({ children }) => {
     const { visible, currEvent } = lightboxState;
     const { Provider } = GlobalContext;
 
-    // useEffect(() => {
+    // State
+    const [loading, setLoading] = useState(true);
 
-    //     Service.userInfo()
-    //         .catch((resData) => {
+    useEffect(() => {
 
-    //             console.log('resData:', resData);
-    //             // if (resData === 401) window.location = '/login';
+        Service.userInfo()
+            .then((resData) => {
 
-    //         })
-    //         .then((resData) => {
+                globalDispatch({ type: 'user_info', payload: resData });
 
-    //             // setLogged(!!uid);
-    //             globalDispatch({ type: 'user_info', payload: resData });
+            })
+            .finally(() => {
 
-    //         });
+                setLoading(false);
 
-    // }, [])
+            });
+
+    }, []);
 
     return (
 
-        <Provider value={{
-            // 全域資料
-            currCate,
-            files,
-            searchResData,
-            accounts,
-            userInfo,
+        !loading && (
 
-            // lightbox
-            visible,
-            currEvent,
+            <Provider value={{
+                // 全域資料
+                currCate,
+                files,
+                searchResData,
+                accounts,
+                userInfo,
 
-            // dispatch
-            globalDispatch,
-            lightboxDispatch,
-        }}>
-            {children}
-        </Provider>
+                // lightbox
+                visible,
+                currEvent,
+
+                // dispatch
+                globalDispatch,
+                lightboxDispatch,
+            }}>
+                {children}
+            </Provider>
+        )
 
     );
 
