@@ -12,6 +12,7 @@ import ContentHeader from '../containers/ContentHeader';
 import FontIcon from '../components/FontIcon';
 import Buttons from '../components/Buttons';
 import Tables from '../components/Tables';
+import Loading from '../components/Loading';
 import SearchForm from '../components/home/SearchForm';
 
 import { GlobalContext } from '../context/global.state';
@@ -106,12 +107,14 @@ const FileList = () => {
 
     // State
     const [selectedRowData, setSelectedRowData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
         Service.fileList({ begin: 1662017107 })
             .then(({ list }) => {
 
+                setLoading(false);
                 globalDispatch({
                     type: 'file_list',
                     payload: list,
@@ -280,15 +283,21 @@ const FileList = () => {
                 <span>已選取 {selectedRowData.length} 個項目</span>
             </ControlActions>
 
-            <TablesLayout
-                rowKey="id"
-                columns={columns}
-                data={searchResData.length ? searchResData.filter((obj) => (obj.type === currCate) || (currCate === 'all')) : files.filter((obj) => (obj.type === currCate) || (currCate === 'all'))}
-                rowSelection={{
-                    selectedRowKeys: selectedRowData.flatMap(({ id }) => id),
-                    onChange: handleChangeSelected,
-                }}
-            />
+            {
+                loading ? <Loading spin={loading} /> : (
+
+                    <TablesLayout
+                        rowKey="id"
+                        columns={columns}
+                        data={searchResData.length ? searchResData.filter((obj) => (obj.type === currCate) || (currCate === 'all')) : files.filter((obj) => (obj.type === currCate) || (currCate === 'all'))}
+                        rowSelection={{
+                            selectedRowKeys: selectedRowData.flatMap(({ id }) => id),
+                            onChange: handleChangeSelected,
+                        }}
+                    />
+
+                )
+            }
         </Fragment>
 
     );

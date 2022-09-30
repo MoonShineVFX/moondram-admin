@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Layout } from 'antd';
 import styled from 'styled-components';
+import moment from 'moment';
 import Navbar from './Navbar';
 import { GlobalContext } from '../context/global.state';
 
@@ -49,7 +50,7 @@ const Frame = () => {
                     <Outlet />
                 </ContentLayout>
 
-                <FooterLayout>Copyright © Moonshine All rights reserved.</FooterLayout>
+                <FooterLayout>Copyright © {moment().format('YYYY')} Moonshine. All rights reserved.</FooterLayout>
             </Layout>
         </Layout>
     );

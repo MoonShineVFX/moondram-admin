@@ -1,4 +1,4 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import { Switch, Modal } from 'antd';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
@@ -7,6 +7,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import ContentHeader from '../containers/ContentHeader';
 import Tables from '../components/Tables';
 import Buttons from '../components/Buttons';
+import Loading from '../components/Loading';
 
 import { GlobalContext } from '../context/global.state';
 import util from '../utils/util';
@@ -224,11 +225,15 @@ const Account = () => {
         lightboxDispatch,
     } = useContext(GlobalContext);
 
+    // State
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
 
         Service.accountList()
             .then(({ list }) => {
 
+                setLoading(false);
                 globalDispatch({
                     type: 'account_list',
                     payload: list,
@@ -356,11 +361,17 @@ const Account = () => {
                 onClick={btnCreateAccount}
             />
 
-            <TablesLayout
-                rowKey="uid"
-                columns={columns}
-                data={accounts}
-            />
+            {
+                loading ? <Loading spin={loading} /> : (
+
+                    <TablesLayout
+                        rowKey="uid"
+                        columns={columns}
+                        data={accounts}
+                    />
+
+                )
+            }
 
             {
                 visible && <FormModal />
