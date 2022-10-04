@@ -278,7 +278,7 @@ const Account = () => {
                 <Switch
                     checkedChildren="啟用"
                     unCheckedChildren="禁用"
-                    defaultChecked={disabled}
+                    defaultChecked={!disabled}
                     onChange={(checked, event) => handleSwitch(checked, event, uid)}
                     disabled={!(role === 'superuser')}
                 />
