@@ -1,0 +1,43 @@
+name: Build and Deploy
+
+on:
+  workflow_call:
+    inputs:
+      env_input:
+        type: string
+        required: true
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy to Firebase
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.env_input }}
+
+    env:
+      CI: false
+    steps:
+      - name: Debug
+        run: echo "key is ${{ secrets.GCP_SA_KEY }} and other key is ${{ secrets.PROJECT_ID }}"
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Yarn install
+        run: yarn install --frozen-lockfile --immutable --prefer-offline
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
