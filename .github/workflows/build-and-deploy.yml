@@ -53,7 +53,8 @@ jobs:
       - name: Deploy to Firebase
         run: |
           echo $GCP_SA_KEY > $GOOGLE_APPLICATION_CREDENTIALS
-          firebase deploy -p $PROJECT_ID --only hosting
+          firebase use $PROJECT_ID
+          firebase deploy --only hosting
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
