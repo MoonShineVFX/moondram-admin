@@ -12,13 +12,10 @@ jobs:
     name: Build and Deploy to Firebase
     runs-on: ubuntu-latest
     environment: ${{ inputs.env_input }}
-
     env:
       CI: false
-    steps:
-      - name: Debug
-        run: echo "key is ${{ secrets.GCP_SA_KEY }} and other key is ${{ secrets.PROJECT_ID }}"
 
+    steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -26,18 +23,38 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+
+      - name: Cache (node)
+        uses: actions/cache@v3
+        id: cache-node
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-nodules-${{ hashFiles('yarn.lock') }}
 
       - name: Yarn install
+        if: steps.cache-node.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile --immutable --prefer-offline
 
-      - name: Build
+      - name: Build node
         run: npm run build
 
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+      - name: Cache (firebase)
+        uses: actions/cache@v3
+        id: cache-firebase
         with:
-          args: deploy --only hosting
+          path: /usr/local/bin/firebase
+          key: ${{ runner.os }}-firebase
+
+      - name: Install firebase tools
+        if: steps.cache-firebase.outputs.cache-hit != 'true'
+        run: |
+          curl -sL firebase.tools | bash
+
+      - name: Deploy to Firebase
+        run: |
+          echo $GCP_SA_KEY > $GOOGLE_APPLICATION_CREDENTIALS
+          firebase deploy -p $PROJECT_ID --only hosting
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          GOOGLE_APPLICATION_CREDENTIALS: gcp_sa.json

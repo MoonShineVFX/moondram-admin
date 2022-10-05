@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - master
+      - master-**
       - dev
+      - dev-**
 
 jobs:
   apply-env:
@@ -16,7 +18,7 @@ jobs:
     steps:
       - id: var
         run: |
-          echo "::set-output name=env_var::$GITHUB_REF_NAME"
+          echo "::set-output name=env_var::${GITHUB_REF_NAME%%-*}"
   call-workflow:
     needs:
       - apply-env
